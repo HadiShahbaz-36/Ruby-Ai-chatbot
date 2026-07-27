@@ -1,0 +1,6 @@
+{
+  "openai_api_key": "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",
+  "gemini_api_key": "AQ.Ab8RN6JzRX7KwNRApjryMpfJ1hgqVI_z-re_WPqq8owmX3Cm4Q",
+  "openai_model": "gpt-5.5",
+  "gemini_model": "gemini-flash-latest"
+}

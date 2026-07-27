@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Keys · Ruby</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gemGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff3b5c"/>
+      <stop offset="55%" stop-color="#a80f2b"/>
+      <stop offset="100%" stop-color="#5c0a1c"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="app-shell settings-shell">
+
+  <header class="topbar">
+    <a href="/" class="brand">
+      <svg viewBox="0 0 24 24" class="gem-mark" aria-hidden="true">
+        <polygon points="5,4 19,4 23,10 12,22 1,10" fill="url(#gemGrad)" stroke="#d4af37" stroke-width="0.6"/>
+        <polygon points="5,4 19,4 15.5,10 8.5,10" fill="#ff6b83" fill-opacity="0.5"/>
+        <polyline points="5,4 1,10 12,22" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.6"/>
+        <polyline points="19,4 23,10 12,22" fill="none" stroke="#d4af37" stroke-width="0.5" opacity="0.6"/>
+        <line x1="1" y1="10" x2="23" y2="10" stroke="#d4af37" stroke-width="0.5" opacity="0.6"/>
+      </svg>
+      <span class="brand-name">Ruby</span>
+    </a>
+    <a href="/" class="back-link">← Back to chat</a>
+  </header>
+
+  <main class="settings-main">
+    <h1>API Keys</h1>
+    <p class="settings-sub">
+      Ruby will talk to whichever key you give it, and you can switch between them anytime from the
+      chat header. Keys are stored only in a local <code>config.json</code> file next to
+      <code>app.py</code> on this machine — never sent anywhere but straight to OpenAI or Google.
+    </p>
+
+    <section class="key-card">
+      <div class="key-card-head">
+        <h2>OpenAI</h2>
+        <span class="status-pill {{ 'connected' if has_openai else '' }}">
+          {{ 'Connected' if has_openai else 'Not connected' }}
+        </span>
+      </div>
+
+      <label for="openaiKeyInput">API key</label>
+      <div class="key-input-row">
+        <input type="password" id="openaiKeyInput" placeholder="{{ openai_masked or 'sk-...' }}" autocomplete="off">
+        <button type="button" class="ghost-btn" data-toggle-visibility="openaiKeyInput">Show</button>
+      </div>
+
+      <label for="openaiModelInput">Model</label>
+      <input type="text" id="openaiModelInput" value="{{ openai_model }}" autocomplete="off">
+      <p class="model-hint">Any Chat Completions model your key can access, e.g. gpt-5.5, gpt-5.5-pro, gpt-4.1.</p>
+
+      <div class="key-card-actions">
+        <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener" class="text-link">Get an OpenAI key ↗</a>
+        {% if has_openai %}
+        <button type="button" class="danger-link" data-clear="openai">Remove key</button>
+        {% endif %}
+      </div>
+    </section>
+
+    <section class="key-card">
+      <div class="key-card-head">
+        <h2>Gemini</h2>
+        <span class="status-pill {{ 'connected' if has_gemini else '' }}">
+          {{ 'Connected' if has_gemini else 'Not connected' }}
+        </span>
+      </div>
+
+      <label for="geminiKeyInput">API key</label>
+      <div class="key-input-row">
+        <input type="password" id="geminiKeyInput" placeholder="{{ gemini_masked or 'AIza...' }}" autocomplete="off">
+        <button type="button" class="ghost-btn" data-toggle-visibility="geminiKeyInput">Show</button>
+      </div>
+
+      <label for="geminiModelInput">Model</label>
+      <input type="text" id="geminiModelInput" value="{{ gemini_model }}" autocomplete="off">
+      <p class="model-hint">Any Gemini API model your key can access, e.g. gemini-flash-latest, gemini-3.5-flash.</p>
+
+      <div class="key-card-actions">
+        <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" class="text-link">Get a Gemini key ↗</a>
+        {% if has_gemini %}
+        <button type="button" class="danger-link" data-clear="gemini">Remove key</button>
+        {% endif %}
+      </div>
+    </section>
+
+    <button type="button" class="primary-btn" id="saveBtn">Save changes</button>
+    <p class="save-status" id="saveStatus"></p>
+  </main>
+
+  <footer class="site-footer">
+    <span>Ruby · runs on your own API keys</span>
+    <a href="/" class="footer-link">← Back to chat</a>
+  </footer>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+</body>
+</html>
